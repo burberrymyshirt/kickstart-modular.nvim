@@ -105,6 +105,7 @@ require 'lazy-bootstrap'
 -- [[ Configure and install plugins ]]
 require 'lazy-plugins'
 
+-- [[ Configure colorscheme ]]
 require 'colors'
 
 -- The line beneath this is called `modeline`. See `:help modeline`

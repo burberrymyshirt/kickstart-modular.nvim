@@ -155,9 +155,25 @@ return {
       --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+      local util = require 'lspconfig.util'
       local servers = {
         -- clangd = {},
-        gopls = {},
+        gopls = {
+          cmd = { 'gopls' },
+          filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
+          -- capabilities = {},
+          settings = {
+            gopls = {
+              completeUnimported = true,
+              usePlaceholders = true,
+              gofumpt = true,
+              analyses = {
+                unusedparams = true,
+              },
+            },
+          },
+          root_dir = util.root_pattern('go.work', 'go.mod', '.git'),
+        },
         -- pyright = {},
         rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
