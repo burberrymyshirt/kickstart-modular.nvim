@@ -1,7 +1,7 @@
 return {
     {
         'Mofiqul/vscode.nvim',
-        priority = 1000,
+        priority = 999,
         -- config = true,
         opts = ...,
     },

@@ -4,29 +4,29 @@
 --    :Lazy
 --
 require('lazy').setup({
+    { import = 'colorschemes.plugins' },
+
     { import = 'kickstart.plugins' },
-    -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
-    --    This is the easiest way to modularize your config.
-    --
-    --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-    --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
+
     { import = 'custom.plugins' },
+
+    change_detection = false,
 }, {
     ui = {
         -- If you are using a Nerd Font: set icons to an empty table which will use the
         -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
         icons = vim.g.have_nerd_font and {} or {
-            cmd = '⌘',
+            cmd = '⌘ ',
             config = '🛠',
             event = '📅',
             ft = '📂',
-            init = '⚙',
+            init = '⚙ ',
             keys = '🗝',
             plugin = '🔌',
             runtime = '💻',
             require = '🌙',
             source = '📄',
-            start = '🚀',
+            start = '🚀 ',
             task = '📌',
             lazy = '💤 ',
         },

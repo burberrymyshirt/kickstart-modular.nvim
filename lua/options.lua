@@ -65,4 +65,6 @@ vim.o.softtabstop = 4 -- Number of spaces inserted instead of a TAB character
 vim.o.shiftwidth = 4 -- Number of spaces inserted when indenting
 
 vim.g.editorconfig = true
+
+vim.o.termguicolors = true
 -- vim: ts=2 sts=2 sw=2 et
