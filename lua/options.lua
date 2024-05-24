@@ -66,5 +66,7 @@ vim.o.shiftwidth = 4 -- Number of spaces inserted when indenting
 
 vim.g.editorconfig = true
 
+vim.o.guicursor = ''
+
 vim.o.termguicolors = true
 -- vim: ts=2 sts=2 sw=2 et
