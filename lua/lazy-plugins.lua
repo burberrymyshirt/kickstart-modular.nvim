@@ -4,16 +4,16 @@
 --    :Lazy
 --
 require('lazy').setup({
+    change_detection = {
+        enabled = false,
+        notify = false,
+    },
+
     { import = 'colorschemes.plugins' },
 
     { import = 'kickstart.plugins' },
 
     { import = 'custom.plugins' },
-
-    change_detection = {
-        enabled = false,
-        notify = false,
-    },
 }, {
     ui = {
         -- If you are using a Nerd Font: set icons to an empty table which will use the

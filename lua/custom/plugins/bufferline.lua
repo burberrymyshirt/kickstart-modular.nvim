@@ -3,7 +3,10 @@ return {
         'akinsho/bufferline.nvim',
         version = '*',
         dependencies = 'nvim-tree/nvim-web-devicons',
-        opts = {},
-        priority = 20,
+        opts = {
+            options = {
+                numbers = 'buffer_id',
+            },
+        },
     },
 }
