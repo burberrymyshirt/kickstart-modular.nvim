@@ -192,8 +192,8 @@ return {
 
                 phpactor = {},
                 lua_ls = {
-                    -- cmd = {...},
-                    -- filetypes = { ...},
+                    -- cmd = { ... },
+                    -- filetypes = { ... },
                     -- capabilities = {},
                     settings = {
                         Lua = {
