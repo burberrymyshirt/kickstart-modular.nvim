@@ -115,7 +115,7 @@ return {
                     --
                     -- When you move your cursor, the highlights will be cleared (the second autocommand).
                     local client = vim.lsp.get_client_by_id(event.data.client_id)
-                    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+                    if client ~= nil and client:supports_method 'textDocument/documentHighlight' then
                         local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
                         vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
                             buffer = event.buf,
@@ -142,7 +142,7 @@ return {
                     -- code, if the language server you are using supports them
                     --
                     -- This may be unwanted, since they displace some of your code
-                    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+                    if client ~= nil and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
                         map('<leader>th', function()
                             vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
                         end, '[T]oggle Inlay [H]ints')
@@ -159,7 +159,13 @@ return {
             --   end
             --   vim.diagnostic.config { signs = { text = diagnostic_signs } }
             -- end
-
+            vim.diagnostic.config {
+                virtual_text = true,
+                signs = true,
+                underline = true,
+                update_in_insert = false,
+                severity_sort = true,
+            }
             -- LSP servers and clients are able to communicate to each other what features they support.
             --  By default, Neovim doesn't support everything that is in the LSP specification.
             --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
@@ -175,10 +181,12 @@ return {
             --  - filetypes (table): Override the default list of associated filetypes for the server
             --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
             --  - settings (table): Override the default settings passed when initializing the server.
-            --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+            --        for example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
             local servers = {
                 -- clangd = {},
-                gopls = {},
+                gopls = {
+                    settings = {},
+                },
                 -- pyright = {},
                 -- rust_analyzer = {},
                 -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -190,6 +198,16 @@ return {
                 -- ts_ls = {},
                 --
 
+                elixirls = {
+                    capabilities = capabilities,
+                    -- cmd = { '/home/larse/.local/share/elixir-ls/release/language_server.sh' },
+                    settings = {
+                        elixirLS = {
+                            dialyzerEnabled = true,
+                            fetchDeps = false,
+                        },
+                    },
+                },
                 phpactor = {},
                 lua_ls = {
                     -- cmd = {  ...  },
@@ -219,12 +237,14 @@ return {
             -- for you, so that they are available from within Neovim.
             local ensure_installed = vim.tbl_keys(servers or {})
             vim.list_extend(ensure_installed, {
-                'stylua', -- Used to format Lua code
-                'markdownlint',
+                -- 'stylua', -- Used to format Lua code
+                -- 'markdownlint',
             })
             require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
             require('mason-lspconfig').setup {
+                ensure_installed = ensure_installed, -- Ensure these LSP servers are installed
+                automatic_installation = true, -- Automatically install missing LSPs
                 handlers = {
                     function(server_name)
                         local server = servers[server_name] or {}
